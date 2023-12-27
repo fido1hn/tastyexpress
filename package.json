@@ -1,0 +1,20 @@
+{
+  "name": "tastyexpress",
+  "description": "An on demand food delivery system for Customers, Restaurants & Riders.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "sass:build": "sass --no-source-map static/scss:static/css",
+    "sass:watch": "sass --no-source-map --watch static/scss:static/css"
+  },
+  "devDependencies": {
+    "prettier": "3.1.1",
+    "prettier-plugin-django-alpine": "^1.2.6",
+    "@fortawesome/fontawesome-free": "^6.5.0",
+    "bootstrap": "^5.3.0",
+    "sass": "^1.69.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

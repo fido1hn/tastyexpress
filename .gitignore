@@ -1,0 +1,14 @@
+# virtual environment files
+venvtastyexpress
+node_modules
+venv
+
+# python cache
+__pycache__
+
+# Code editors
+.idea
+.vscode
+
+# db
+db.sqlite3
