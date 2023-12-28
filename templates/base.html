@@ -36,7 +36,7 @@
             >
               <a
                 class="nav-link active"
-                href="/login/?next=/customer/"
+                href="/sign-in/?next=/customer/"
                 aria-current="page"
                 >Customer</a
               >
@@ -44,15 +44,15 @@
             <li
               class="nav-item {% if request.GET.next != '/customer' %}active{% endif %}"
             >
-              <a class="nav-link" href="/login/?next=/courier/">Courier</a>
+              <a class="nav-link" href="/sign-in/?next=/courier/">Courier</a>
             </li>
           </ul>
         </div>
         {% else %}
-        <form class="form-inline" method="post" action="{% url "logout" %}">
+        <form class="form-inline" method="post" action="{% url "sign-out" %}">
           {% csrf_token %}
           <span class="me-4">{{ request.user.get_full_name|title }}</span>
-          <button type="submit" href="/logout" class="btn btn-outline-dark">
+          <button type="submit" href="/sign-out" class="btn btn-outline-dark">
             Sign Out
           </button>
         </form>
