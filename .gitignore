@@ -6,9 +6,12 @@ venv
 # python cache
 __pycache__
 
-# Code editors
+# code editors
 .idea
 .vscode
 
 # db
 db.sqlite3
+
+# secrets
+*.json

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load django_bootstrap5 %}
+{% load socialaccount %}
 
 {% block page_title %}
 Sign-Up Page
@@ -30,6 +31,13 @@ Sign-Up Page
             <p class="text-center mt-3">
               Already have an account?
               <a href="/sign-in/?next={{ request.GET.next }}"><b>Sign In</b></a>
+            </p>
+            <p class="d-grid">
+              <a
+                href="{% provider_login_url 'google' %}?next={{ request.GET.next }}"
+                class="btn btn-outline-primary"
+                >Sign Up with Google</a
+              >
             </p>
           </form>
         </div>

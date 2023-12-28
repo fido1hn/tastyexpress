@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load django_bootstrap5 %}
+{% load socialaccount %}
 
 {% block page_title %}
 Login Page
@@ -33,6 +34,13 @@ Login Page
             <p class="text-center mt-3">
               New to Tasty Express?
               <a href="/sign-up/?next={{ request.GET.next }}"><b>Sign Up</b></a>
+            </p>
+            <p class="d-grid">
+              <a
+                href="{% provider_login_url 'google' %}?next={{ request.GET.next }}"
+                class="btn btn-outline-primary"
+                >Sign In with Google</a
+              >
             </p>
           </form>
         </div>
