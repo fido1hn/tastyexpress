@@ -67,5 +67,34 @@
 
     <script src="{% static "js/bootstrap.bundle.min.js" %}"></script>
     <script src="{% static "js/script.js" %}"></script>
+
+    {% for message in messages %}
+    <div
+      class="toast {{ message.tags }} position-fixed bottom-0 end-0 p-3"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div class="toast-header">
+        <strong class="me-auto">Tasty Express</strong>
+        <small>2 secs ago</small>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="toast"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="toast-body">{{ message | safe }}</div>
+    </div>
+    {% endfor %}
+
+    <script>
+      let toastEl = document.querySelector('.toast');
+      let toast = new bootstrap.Toast(toastEl);
+      {% for message in messages %}
+      toast.show();
+      {% endfor %}
+    </script>
   </body>
 </html>
