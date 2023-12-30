@@ -1,7 +1,36 @@
 {% extends "core/customer/base.html" %}
 {% load django_bootstrap5 %}
 
+{% block head %}
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js" />
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-auth.js" />
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: 'AIzaSyBRJ9GWrariW-wg03WiyhRmu9hYqH-iVyY',
+    authDomain: 'tastyexpress.firebaseapp.com',
+    projectId: 'tastyexpress',
+    storageBucket: 'tastyexpress.appspot.com',
+    messagingSenderId: '153119081606',
+    appId: '1:153119081606:web:84f8fae95fd08acaec7d07',
+    measurementId: 'G-R1Q8XN9X5L',
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+</script>
+{% endblock head %}
+
 {% block main %}
+<!-- Basic Information -->
 <div><b class="text-secondary">Basic Information</b></div>
 <div class="card bg-white mt-2 mb-5">
   <div class="card-body">
@@ -15,6 +44,7 @@
   </div>
 </div>
 
+<!-- Password -->
 <div><b class="text-secondary">Change Password</b></div>
 <div class="card bg-white mt-2 mb-5">
   <div class="card-body">
@@ -26,4 +56,73 @@
     </form>
   </div>
 </div>
+
+<!-- Phone number -->
+<div><b class="text-secondary">Phone Number</b></div>
+<div class="card bg-white mt-2 mb-5">
+  <div class="card-body">
+    <div id="recaptcha-container"></div>
+
+    <div id="get-code" class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Your phone number"
+        aria-label=" Your phone number"
+        aria-describedby="basic-addon2"
+      />
+      <button class="btn btn-warning">Send code</button>
+    </div>
+
+    <div id="verify-code" class="input-group mb-3 d-none">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Verification code"
+        aria-label="Verification code"
+        aria-describedby="basic-addon2"
+      />
+      <button class="btn btn-warning">Verify code</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+    'recaptcha-container',
+  );
+
+  $('#get-code button').on('click', function () {
+    const phoneNumber = $('#get-code input').val();
+    console.log(phoneNumber);
+
+    firebase
+      .auth()
+      .signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier)
+      .then((confirmationResult) => {
+        console.log(confirmationResult);
+        window.confirmationResult = confirmationResult;
+
+        $('#get-code').addClass('d-none');
+        $('#verify-code').removeClass('d-none');
+      })
+      .catch((error) => {
+        toast.error(error.message, 'error');
+        console.log(error);
+      });
+  });
+
+  $('#verify-code button').on('click', function () {
+    const code = $('#verify-code input').val();
+    confirmationResult.confirm(code).then((result) => {
+      const user = result.user;
+      console.log(user.phoneNumber);
+
+      user.getIdToken().then(function(idToken){
+        console.log(idToken);
+      });
+    }).catch((error) => {
+      toast.error(error.message, 'error');
+  });
+</script>
 {% endblock main %}

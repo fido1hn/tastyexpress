@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="{% static "css/font-awesome.css" %}" />
     <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" />
     <link rel="stylesheet" href="{% static "css/styles.css" %}" />
+    {% block head %}
+    {% endblock head %}
     <title>{% block page_title %}{% endblock page_title %}</title>
   </head>
   <body>
