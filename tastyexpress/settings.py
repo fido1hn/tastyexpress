@@ -165,3 +165,6 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+FIREBASE_ADMIN_CREDENTIALS = BASE_DIR / \
+    "tastyexpress-firebase-adminsdk-hkkaf-4ab48ee8e8.json"
