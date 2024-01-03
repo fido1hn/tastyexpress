@@ -61,3 +61,8 @@ def profile_page(request):
         "customer_form": customer_form,
         "password_form": password_form,
     })
+
+
+@login_required(login_url="/sign-in/?next=/customer/")
+def payment_method_page(request):
+    return render(request, "core/customer/payment_method.html")

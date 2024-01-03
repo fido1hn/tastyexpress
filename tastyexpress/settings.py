@@ -169,3 +169,6 @@ MESSAGE_TAGS = {
 
 FIREBASE_ADMIN_CREDENTIALS = os.path.join(
     BASE_DIR, "tastyexpress-firebase-adminsdk-hkkaf-4ab48ee8e8.json")
+
+STRIPE_API_PUBLIC_KEY = 'pk_test_QH0woKdh3D72WubOKyFrW2W8'
+STRIPE_API_SECRET_KEY = 'sk_test_ntYRk4HuXVw8GSMULL8LzsZs'
