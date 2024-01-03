@@ -44,7 +44,10 @@
   <div class="card-body">
     <div id="recaptcha-container"></div>
 
-    <div id="get-code" class="input-group mb-3">
+    <div
+      id="get-code"
+      class="input-group mb-3 {% if request.user.customer.phone_number %}d-none{% endif %}"
+    >
       <input
         type="text"
         class="form-control"
@@ -64,6 +67,21 @@
         aria-describedby="basic-addon2"
       />
       <button class="btn btn-warning">Verify code</button>
+    </div>
+
+    <div
+      id="change-phone"
+      class="input-group mb-3 {% if not request.user.customer.phone_number %}d-none{% endif %}"
+    >
+      <input
+        type="text"
+        class="form-control"
+        value="{{ request.user.customer.phone_number }}"
+        aria-label="Verification code"
+        aria-describedby="basic-addon2"
+        disabled
+      />
+      <button class="btn btn-warning">Change</button>
     </div>
   </div>
 </div>
@@ -154,6 +172,11 @@
       .catch((error) => {
         console.log(error);
       });
+  });
+
+  $('#change-phone button').on('click', function () {
+    $('#change-phone').addClass('d-none');
+    $('#get-code').removeClass('d-none');
   });
 </script>
 
