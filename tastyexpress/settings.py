@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 from django.contrib import messages
 
@@ -166,5 +167,5 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert-danger',
 }
 
-FIREBASE_ADMIN_CREDENTIALS = BASE_DIR / \
-    "tastyexpress-firebase-adminsdk-hkkaf-4ab48ee8e8.json"
+FIREBASE_ADMIN_CREDENTIALS = os.path.join(
+    BASE_DIR, "tastyexpress-firebase-adminsdk-hkkaf-4ab48ee8e8.json")

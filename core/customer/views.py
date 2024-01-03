@@ -3,8 +3,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.conf import settings
+
+import firebase_admin
+from firebase_admin import credentials, auth
 
 from . import forms
+
+
+cred = credentials.Certificate(settings.FIREBASE_ADMIN_CREDENTIALS)
+firebase_admin.initialize_app(cred)
 
 
 @login_required()
@@ -40,6 +48,13 @@ def profile_page(request):
                 messages.success(
                     request, "Your password updated successfully.")
                 return redirect("customer:profile")
+
+        elif request.POST.get("action") == "update_phone":
+            # Get firebase user data
+            firebase_user = auth.verify_id_token(request.POST.get("id_token"))
+            request.user.customer.phone_number = firebase_user["phone_number"]
+            request.user.customer.save()
+            return redirect("customer:profile")
 
     return render(request, "core/customer/profile.html", {
         "user_form": user_form,
