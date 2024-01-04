@@ -5,6 +5,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.conf import settings
 
+import stripe
 import firebase_admin
 from firebase_admin import credentials, auth
 
@@ -13,6 +14,7 @@ from . import forms
 
 cred = credentials.Certificate(settings.FIREBASE_ADMIN_CREDENTIALS)
 firebase_admin.initialize_app(cred)
+stripe.api_key = settings.STRIPE_API_SECRET_KEY
 
 
 @login_required()
@@ -65,4 +67,17 @@ def profile_page(request):
 
 @login_required(login_url="/sign-in/?next=/customer/")
 def payment_method_page(request):
-    return render(request, "core/customer/payment_method.html")
+    current_customer = request.user.customer
+    # Save stripe customer info
+    if not current_customer.stripe_customer_id:
+        customer = stripe.Customer.create()
+        current_customer.stripe_customer_id = customer['id']
+        current_customer.save()
+
+    intent = stripe.SetupIntent.create(
+        customer=current_customer.stripe_customer_id
+    )
+    return render(request, "core/customer/payment_method.html", {
+        "client_secret": intent.client_secret,
+        "STRIPE_API_PUBLIC_KEY": settings.STRIPE_API_PUBLIC_KEY,
+    })
